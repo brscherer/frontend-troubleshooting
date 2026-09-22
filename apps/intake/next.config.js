@@ -14,10 +14,8 @@ module.exports = {
       // Maps are generated for the error tracker but not referenced from the bundles.
       config.devtool = 'hidden-source-map';
     }
-    if (buggy) {
-      // "Bundle size fix" from PR #377: import the 9kb standalone build instead of the package.
-      config.resolve.alias['@acme/date-input$'] = require.resolve('@acme/date-input/standalone');
-    }
+    // Never alias UI packages to their standalone/UMD builds: those inline their own React,
+    // and hooks from a second React crash under the host's renderer.
     config.plugins.push(
       new NextFederationPlugin({
         name: 'intake',
