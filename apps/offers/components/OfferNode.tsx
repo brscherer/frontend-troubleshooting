@@ -23,13 +23,18 @@ export default function OfferNode({ node, onNext }: NodeProps) {
   }, []);
 
   useEffect(() => {
+    // Only the latest request may update the UI: cancel the previous one when inputs change.
+    const controller = new AbortController();
     setError(null);
-    fetchQuote(amount, termMonths)
+    fetchQuote(amount, termMonths, controller.signal)
       .then((q) => {
         quoteHistory.current.push(new Array(50_000).fill({ ...q }));
         setQuote(q);
       })
-      .catch((e) => setError(String(e)));
+      .catch((e) => {
+        if (e.name !== 'AbortError') setError(String(e));
+      });
+    return () => controller.abort();
   }, [amount, termMonths]);
 
   useEffect(() => {
