@@ -2,7 +2,6 @@ import { isBugOn } from '@acme/bugs';
 import { formatMoney, formatPercent, greeting, useSdui } from '@acme/sdui-context';
 import { useEffect, useRef, useState } from 'react';
 import { fetchQuote, type Quote } from './api';
-import { injectLegacyStyles } from './legacyStyles';
 import type { NodeProps } from './types';
 
 export default function OfferNode({ node, onNext }: NodeProps) {
@@ -17,10 +16,6 @@ export default function OfferNode({ node, onNext }: NodeProps) {
   const [compact, setCompact] = useState(false);
   // Every quote the user has seen, for the "compare offers" drawer (not built yet).
   const quoteHistory = useRef<Quote[][]>([]);
-
-  useEffect(() => {
-    injectLegacyStyles();
-  }, []);
 
   useEffect(() => {
     setError(null);
