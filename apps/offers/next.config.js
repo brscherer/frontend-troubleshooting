@@ -22,12 +22,10 @@ module.exports = {
           './OfferNode': './components/OfferNode.tsx',
           './ReviewNode': './components/ReviewNode.tsx',
         },
-        shared: buggy
-          ? // PR #412 "move offers to the new context package" updated the import, not this config.
-            {}
-          : {
-              '@acme/sdui-context': { singleton: true, requiredVersion: '^2.0.0', strictVersion: true },
-            },
+        shared: {
+          // Must match the host: a second copy means a second createContext() and silent defaults.
+          '@acme/sdui-context': { singleton: true, requiredVersion: '^2.0.0', strictVersion: true },
+        },
       }),
     );
     return config;
