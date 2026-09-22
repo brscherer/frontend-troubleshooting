@@ -91,7 +91,7 @@ export default function OfferNode({ node, onNext }: NodeProps) {
           </div>
           <div>
             <dt>Origination fee</dt>
-            <dd>{formatMoney(quote.fees.origination, ctx)}</dd>
+            <dd>{quote.fees ? formatMoney(quote.fees.origination, ctx) : 'Included in APR'}</dd>
           </div>
         </dl>
       ) : (
