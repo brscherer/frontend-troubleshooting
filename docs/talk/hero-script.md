@@ -110,4 +110,5 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 | Offer stuck on the grey skeleton | Browser tab not focused/visible (React defers work in hidden tabs); click into the page. Else reload. |
 | Offer shows € (bug not active) | `Ctrl+Shift+B` → tick `singleton-split`. |
 | `:3112` not running | `pnpm --filter @acme/offers dev:buggy` |
+| Bug on/off behaves wrong after a `git checkout` | A remote kept its old `next.config.js`. Stop and rerun `pnpm dev` (the remotes run good+buggy under `concurrently -k`, so restart both). |
 | Anything else | Switch to the backup video at the matching timestamp; keep narrating. |
