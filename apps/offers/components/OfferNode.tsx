@@ -1,4 +1,3 @@
-import { isBugOn } from '@acme/bugs';
 import { formatMoney, formatPercent, greeting, useSdui } from '@acme/sdui-context';
 import { useEffect, useRef, useState } from 'react';
 import { fetchQuote, type Quote } from './api';
@@ -36,7 +35,7 @@ export default function OfferNode({ node, onNext }: NodeProps) {
     const history = quoteHistory;
     const onResize = () => setCompact(window.innerWidth < 640 && history.current.length > 0);
     window.addEventListener('resize', onResize);
-    if (isBugOn('listener-leak')) return;
+    // Without this, every unmounted OfferNode stays reachable through the listener closure.
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
