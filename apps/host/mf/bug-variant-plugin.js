@@ -6,7 +6,6 @@
  *
  *   singleton-split    -> load `offers` from the buggy build (:3112)
  *   two-reacts         -> load `intake` from the buggy build (:3111)
- *   stale-remote-entry -> pin the remoteEntry cache-buster to the host build id
  *
  * Runs after nextjs-mf's own plugin, which appends `?t=<Date.now()>`.
  */
@@ -28,10 +27,9 @@ module.exports = function bugVariantPlugin() {
         if (!('entry' in remote) || !remote.entry) continue;
         const url = new URL(remote.entry);
         if (bugs.has(BUGGY_FLAG[remote.name])) url.port = BUGGY_PORT[remote.name];
-        if (bugs.has('stale-remote-entry')) {
-          // "Perf fix": a per-request cache-buster killed CDN caching, so pin it to the host deploy.
-          url.searchParams.set('t', (window.__NEXT_DATA__ && window.__NEXT_DATA__.buildId) || 'dev');
-        }
+        // remoteEntry.js is NOT content-hashed but Next serves /_next/static as immutable.
+        // Keep nextjs-mf's per-request `?t=` so a remote deploy is picked up on the next load;
+        // never key it on the *host* build (remotes deploy independently).
         remote.entry = url.toString();
       }
       return args;
