@@ -170,6 +170,12 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
+  tools/smoke:
+    dependencies:
+      playwright-core:
+        specifier: 1.63.0
+        version: 1.63.0
+
 packages:
 
   '@emnapi/core@1.11.3':
@@ -1276,6 +1282,11 @@ packages:
 
   pino@10.3.1:
     resolution: {integrity: sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==}
+    hasBin: true
+
+  playwright-core@1.63.0:
+    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+    engines: {node: '>=20'}
     hasBin: true
 
   postcss@8.4.31:
@@ -2604,6 +2615,8 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.2.0
+
+  playwright-core@1.63.0: {}
 
   postcss@8.4.31:
     dependencies:

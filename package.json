@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "start": "turbo run start --parallel",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "prod": "./scripts/prod.sh",
+    "prod:stop": "./scripts/stop.sh",
+    "redeploy:offers": "./scripts/redeploy-offers.sh",
+    "smoke": "pnpm --filter @acme/smoke smoke"
   },
   "devDependencies": {
     "turbo": "2.11.2",

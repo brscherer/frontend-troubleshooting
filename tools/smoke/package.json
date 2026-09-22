@@ -1,0 +1,13 @@
+{
+  "name": "@acme/smoke",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pre-talk smoke test: every demo bug is off by default and reproduces when switched on. Uses the system Chrome.",
+  "scripts": {
+    "smoke": "node run.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "1.63.0"
+  }
+}

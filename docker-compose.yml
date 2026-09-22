@@ -1,0 +1,45 @@
+# Dev profile in one container (same ports as `pnpm dev`).
+#   docker compose up        → http://localhost:3100
+# node_modules and .next live in volumes so they don't clash with a local macOS install.
+services:
+  app:
+    image: node:24-bookworm
+    working_dir: /app
+    command: sh -c "corepack enable && pnpm install --frozen-lockfile && pnpm dev"
+    environment:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      TURBO_TELEMETRY_DISABLED: "1"
+    ports:
+      - "3100:3100" # host
+      - "3101:3101" # intake
+      - "3111:3111" # intake (buggy build: two-reacts)
+      - "3102:3102" # offers
+      - "3112:3112" # offers (buggy build: singleton-split)
+      - "4000:4000" # graph service
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - host_nm:/app/apps/host/node_modules
+      - intake_nm:/app/apps/intake/node_modules
+      - offers_nm:/app/apps/offers/node_modules
+      - graph_nm:/app/services/graph/node_modules
+      - bugs_nm:/app/packages/bugs/node_modules
+      - ctx_nm:/app/packages/sdui-context/node_modules
+      - date_nm:/app/packages/date-input/node_modules
+      - smoke_nm:/app/tools/smoke/node_modules
+      - /app/apps/host/.next
+      - /app/apps/intake/.next
+      - /app/apps/intake/.next-buggy
+      - /app/apps/offers/.next
+      - /app/apps/offers/.next-buggy
+volumes:
+  node_modules:
+  host_nm:
+  intake_nm:
+  offers_nm:
+  graph_nm:
+  bugs_nm:
+  ctx_nm:
+  date_nm:
+  smoke_nm:

@@ -7,3 +7,4 @@ dist
 .env*.local
 !packages/date-input/dist
 *.tsbuildinfo
+.logs

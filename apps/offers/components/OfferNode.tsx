@@ -101,6 +101,7 @@ export default function OfferNode({ node, onNext }: NodeProps) {
       <button className="ds-button" disabled={!quote} onClick={onNext}>
         Accept offer
       </button>
+      <p className="ds-muted ds-footnote">offers release {process.env.NEXT_PUBLIC_RELEASE ?? 'dev'}</p>
     </section>
   );
 }

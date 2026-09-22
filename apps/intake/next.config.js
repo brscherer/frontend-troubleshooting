@@ -9,7 +9,11 @@ module.exports = {
   reactStrictMode: true,
   distDir: buggy ? '.next-buggy' : '.next',
   transpilePackages: ['@acme/sdui-context', '@acme/bugs'],
-  webpack(config) {
+  webpack(config, { dev, isServer }) {
+    if (!dev && !isServer) {
+      // Maps are generated for the error tracker but not referenced from the bundles.
+      config.devtool = 'hidden-source-map';
+    }
     if (buggy) {
       // "Bundle size fix" from PR #377: import the 9kb standalone build instead of the package.
       config.resolve.alias['@acme/date-input$'] = require.resolve('@acme/date-input/standalone');
