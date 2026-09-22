@@ -62,11 +62,17 @@ function pickEdge(node: GraphNode, f: LoanApplication): Edge | undefined {
  */
 export function resolveNext(graph: Graph, fromId: string, app: LoanApplication): ScreenNode | undefined {
   const f = facts(app);
+  const visited: string[] = [];
   let edge = pickEdge(graph.nodes[fromId], f);
   while (edge) {
     const target = graph.nodes[edge.to];
     if (!target) return undefined;
     if (target.kind === 'screen') return target;
+    // The graph comes from the server: never trust it to be acyclic.
+    if (visited.includes(target.id)) {
+      throw new Error(`Decision cycle in graph ${graph.id}@${graph.version}: ${[...visited, target.id].join(' → ')}`);
+    }
+    visited.push(target.id);
     edge = pickEdge(target, f);
   }
   return undefined;

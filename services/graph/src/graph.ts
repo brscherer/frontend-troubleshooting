@@ -78,7 +78,8 @@ export function buildLoanGraph(bugs: Set<string>): Graph {
       edges: [
         {
           to: 'offer',
-          when: { field: 'totalIncome', op: bugs.has('graph-cycle') ? 'gt' : 'gte', value: INCOME_THRESHOLD },
+          // Same boundary as `affordability` below: at exactly the threshold both must agree.
+          when: { field: 'totalIncome', op: 'gte', value: INCOME_THRESHOLD },
           likely: true,
         },
         { to: 'affordability' },
