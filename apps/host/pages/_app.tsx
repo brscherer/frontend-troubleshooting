@@ -1,4 +1,3 @@
-import { isBugOn } from '@acme/bugs';
 import { SduiProvider, type LoanApplication, type SduiContextValue, type User } from '@acme/sdui-context';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -15,14 +14,13 @@ export default function App({ Component, pageProps }: AppProps<{ session?: Sessi
   const router = useRouter();
   const session = pageProps.session;
 
-  // Restore the draft immediately so returning users don't see empty forms flash.
-  const [application, setApplication] = useState<LoanApplication>(() =>
-    typeof window !== 'undefined' && isBugOn('hydration-path') ? loadDraft() : {},
-  );
+  // The server can't see sessionStorage: render the first pass with an empty draft (like the
+  // server did) and restore it after hydration, so both sides walk the same graph path.
+  const [application, setApplication] = useState<LoanApplication>({});
   const [restored, setRestored] = useState(false);
 
   useEffect(() => {
-    if (!isBugOn('hydration-path')) setApplication(loadDraft());
+    setApplication(loadDraft());
     setRestored(true);
   }, []);
 
