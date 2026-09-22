@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "tasks": {
+    "dev": { "cache": false, "persistent": true },
+    "build": { "dependsOn": ["^build"], "outputs": [".next/**", ".next-buggy/**", "!.next/cache/**", "dist/**"] },
+    "start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
+    "typecheck": {}
+  }
+}

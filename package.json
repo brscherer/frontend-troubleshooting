@@ -1,0 +1,21 @@
+{
+  "name": "loan-sdui-troubleshooting",
+  "private": true,
+  "packageManager": "pnpm@10.16.1",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "start": "turbo run start --parallel",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "turbo": "2.11.2",
+    "typescript": "5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "webpack": "5.104.1",
+      "enhanced-resolve": "5.18.4"
+    }
+  }
+}

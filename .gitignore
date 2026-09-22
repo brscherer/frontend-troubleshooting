@@ -1,0 +1,9 @@
+node_modules
+.next
+.next-buggy
+dist
+.turbo
+*.log
+.env*.local
+!packages/date-input/dist
+*.tsbuildinfo

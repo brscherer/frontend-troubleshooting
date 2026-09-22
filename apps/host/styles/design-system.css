@@ -1,0 +1,66 @@
+/* Acme design system — shared by the host and every remote (remotes only use ds-* classes). */
+:root {
+  --ds-bg: #f6f7f9;
+  --ds-surface: #ffffff;
+  --ds-text: #111827;
+  --ds-muted: #6b7280;
+  --ds-border: #e5e7eb;
+  --ds-accent: #2563eb;
+  --ds-accent-soft: #dbeafe;
+  --ds-danger: #b91c1c;
+  --ds-radius: 12px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ds-bg);
+  color: var(--ds-text);
+  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 16px; }
+h2 { font-size: 19px; margin: 0; }
+p { margin: 0; }
+code { font-size: 12px; }
+
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius);
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.ds-stack > * + * { margin-top: 16px; }
+.ds-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.ds-row > * { flex: 1 1 160px; }
+.ds-muted { color: var(--ds-muted); }
+.ds-error { color: var(--ds-danger); }
+.ds-footnote { margin-top: 24px; font-size: 12px; }
+.ds-skeleton { min-height: 180px; background: linear-gradient(90deg, #fff, #f3f4f6, #fff); }
+
+.ds-field { display: flex; flex-direction: column; gap: 6px; }
+.ds-field__label { font-size: 13px; font-weight: 600; }
+.ds-field__hint { font-size: 12px; color: var(--ds-muted); }
+.ds-input {
+  font: inherit;
+  padding: 9px 11px;
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  background: white;
+  width: 100%;
+}
+.ds-button, button {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 18px;
+  background: var(--ds-accent);
+  color: white;
+  cursor: pointer;
+}
+.ds-button:disabled { opacity: 0.5; cursor: default; }
+
+.ds-offer, .ds-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0; }
+.ds-offer dt, .ds-summary dt { font-size: 12px; color: var(--ds-muted); }
+.ds-offer dd, .ds-summary dd { margin: 2px 0 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ds-offer__big { font-size: 24px; }

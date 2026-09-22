@@ -1,0 +1,28 @@
+{
+  "name": "@acme/offers",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n good,buggy \"pnpm dev:good\" \"pnpm dev:buggy\"",
+    "dev:good": "NEXT_PRIVATE_LOCAL_WEBPACK=true next dev -p 3102",
+    "dev:buggy": "MF_VARIANT=buggy NEXT_PRIVATE_LOCAL_WEBPACK=true next dev -p 3112",
+    "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build && MF_VARIANT=buggy NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
+    "start": "concurrently -k -n good,buggy \"next start -p 3102\" \"MF_VARIANT=buggy next start -p 3112\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acme/bugs": "workspace:*",
+    "@acme/sdui-context": "workspace:*",
+    "@module-federation/nextjs-mf": "8.8.75",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "webpack": "5.104.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "@types/react": "18.3.31",
+    "concurrently": "^9.2.0",
+    "typescript": "5.9.3"
+  }
+}

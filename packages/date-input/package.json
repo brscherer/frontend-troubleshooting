@@ -1,0 +1,27 @@
+{
+  "name": "@acme/date-input",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Date input used across Acme products. Also shipped as a standalone embed for partner sites.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "src/index.tsx",
+  "exports": {
+    ".": {
+      "types": "./src/index.tsx",
+      "default": "./dist/index.js"
+    },
+    "./standalone": "./dist/standalone.js"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "peerDependencies": {
+    "react": "^18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "react": "18.3.1",
+    "@types/react": "18.3.31"
+  }
+}

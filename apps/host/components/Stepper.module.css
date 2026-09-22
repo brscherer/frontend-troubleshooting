@@ -1,0 +1,37 @@
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: var(--ds-muted);
+}
+.stepper li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dot {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--ds-border);
+  font-size: 11px;
+}
+.done .dot {
+  background: var(--ds-accent-soft);
+  border-color: var(--ds-accent-soft);
+}
+.current {
+  color: var(--ds-text);
+  font-weight: 600;
+}
+.current .dot {
+  background: var(--ds-accent);
+  border-color: var(--ds-accent);
+  color: white;
+}
