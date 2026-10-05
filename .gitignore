@@ -8,3 +8,4 @@ dist
 !packages/date-input/dist
 *.tsbuildinfo
 .logs
+.bundle

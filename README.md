@@ -57,7 +57,7 @@ Bugs that live in *build configuration* (01, 08) are served from a second build 
 | 09 | `listener-leak` | Memory/listeners grow per offer visit | Heap snapshot comparison, retainers | dev/prod |
 | 10 | `css-leak` | Host turns red/serif after visiting the offer | Styles pane, specificity, `<style>` source | dev/prod |
 
-Write-ups: [`docs/bugs/`](docs/bugs). Presenting it: [`docs/talk/prep-2h.md`](docs/talk/prep-2h.md) (two-hour prep plan + likely questions), [`docs/talk/hero-script.md`](docs/talk/hero-script.md) (timed 10-minute script: bug 01 + bug 05) and [`docs/talk/recording.md`](docs/talk/recording.md) (backup video).
+Write-ups: [`docs/bugs/`](docs/bugs). Presenting it on another machine (VPN, proxy, blocked registry): [`docs/talk/company-laptop.md`](docs/talk/company-laptop.md). Preparing the talk: [`docs/talk/prep-2h.md`](docs/talk/prep-2h.md) (two-hour prep plan + likely questions), [`docs/talk/hero-script.md`](docs/talk/hero-script.md) (timed 10-minute script: bug 01 + bug 05) and [`docs/talk/recording.md`](docs/talk/recording.md) (backup video).
 
 ## Production profile (bugs 03 and 04)
 

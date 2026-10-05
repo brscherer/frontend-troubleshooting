@@ -103,6 +103,8 @@ Three slides is all you need:
 2. **The architecture drawing** (host + two remotes + graph service + the shared context package). Copy the diagram from the README.
 3. **Takeaways + repo link** — the three lines from the end of the script, plus "8 more bugs, each with a write-up and a fix branch".
 
+> Presenting from a different (company) laptop? Do [company-laptop.md](company-laptop.md) **days before**, not on the day: corporate registries, proxies and extension policies are the things that actually break this.
+
 ## 1:55 – 2:00 · Pre-flight
 
 ```bash
