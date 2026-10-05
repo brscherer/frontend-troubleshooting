@@ -6,6 +6,7 @@ export function middleware(req: NextRequest) {
   if (bugs === null) return NextResponse.next();
   const url = req.nextUrl.clone();
   url.searchParams.delete('bugs');
+  // `?seed=` is handled in the browser (it writes sessionStorage), so keep it on the redirect.
   const res = NextResponse.redirect(url);
   res.cookies.set('bugs', bugs, { path: '/', sameSite: 'lax' });
   return res;

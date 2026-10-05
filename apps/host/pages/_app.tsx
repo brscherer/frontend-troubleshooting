@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BugSwitcher } from '../components/BugSwitcher';
-import { loadDraft, saveDraft } from '../lib/draft';
+import { applySeedFromUrl, loadDraft, saveDraft } from '../lib/draft';
 import '../styles/design-system.css';
 
 export type Session = { locale: string; currency: string; user: User };
@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps<{ session?: Sessi
   const [restored, setRestored] = useState(false);
 
   useEffect(() => {
+    applySeedFromUrl(); // demo only: `?seed=ana` fills the draft, see lib/draft.ts
     if (!isBugOn('hydration-path')) setApplication(loadDraft());
     setRestored(true);
   }, []);

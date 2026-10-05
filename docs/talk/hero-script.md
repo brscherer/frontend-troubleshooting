@@ -17,10 +17,10 @@ pnpm smoke                     # every bug: ✔ off healthy, ✔ on reproduces
 
 - [ ] Chrome **guest profile** with the React DevTools extension only (no personal extensions, no ad blocker, so the HelpChat noise stays visible).
 - [ ] Zoom 150 %, DevTools docked **bottom**, font size bumped (Settings → Appearance).
-- [ ] Walk the flow once as Ana (Welcome → About you → Employment: Employed → Income 45000) so the draft exists, then open `http://localhost:3100/apply/offer?bugs=singleton-split`. The query param sets the cookie and disappears from the URL.
+- [ ] Open `http://localhost:3100/apply/offer?seed=ana&bugs=singleton-split`. `seed` fills the application draft, `bugs` sets the flags, and both disappear from the URL on load. Other stages: [recording.md](recording.md).
 - [ ] Console: clear, **no** filter yet (the noise is part of the story). Preserve log **off**.
 - [ ] Tab 2: `docs/bugs/01-singleton-split.md` diff or `git diff demo-start demo-fixed -- apps/offers/next.config.js packages/sdui-context` ready in the editor.
-- [ ] Backup: screen recording of this exact run (`docs/talk/backup.mp4`, record it yourself during rehearsal).
+- [ ] Backup: screen recording of this exact run (`docs/talk/backup.mp4`, see [recording.md](recording.md)).
 - [ ] Bug switcher is **Ctrl+Shift+B** if you need to flip anything live.
 
 ---
@@ -99,7 +99,7 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 
 > "Same app, 90 seconds, different tool. Support says the app freezes for *some* applicants. QA can't reproduce it."
 
-1. **Ctrl+Shift+B** → tick `graph-cycle` → the page reloads. Go to **Income** (`/apply/income`).
+1. **Ctrl+Shift+B** → untick `singleton-split`, tick `graph-cycle` → the page reloads. Go to **Income** (or jump straight there: `/apply/income?seed=threshold&bugs=graph-cycle`).
 2. **Open DevTools first** (this is the whole trick), then type `30000` and click **Check eligibility**. The tab is frozen: the spinner never comes, the console is dead.
 3. Sources → **Pause** (F8). The call stack stops in `resolveNext` → `pickEdge`, inside `while (edge)`.
 4. Hover `target.id` in the loop (or add a logpoint): it alternates `eligibility → affordability → eligibility`.
@@ -129,6 +129,6 @@ then the lightning bug, then the fix diff (just say what the line is).
 | Offer stuck on the grey skeleton | Browser tab not focused/visible (React defers work in hidden tabs); click into the page. Else reload. |
 | Offer shows € (bug not active) | `Ctrl+Shift+B` → tick `singleton-split`. |
 | `:3112` not running | `pnpm --filter @acme/offers dev:buggy` |
-| Frozen tab won't unfreeze after the lightning bug | Close the tab, open a fresh one on `http://localhost:3100/apply/start?bugs=` (clears every flag). |
+| Frozen tab won't unfreeze after the lightning bug | Close the tab, open a fresh one on `http://localhost:3100/apply/start?seed=&bugs=` (clears flags and draft). |
 | Bug on/off behaves wrong after a `git checkout` | A remote kept its old `next.config.js`. Stop and rerun `pnpm dev` (the remotes run good+buggy under `concurrently -k`, so restart both). |
 | Anything else | Switch to the backup video at the matching timestamp; keep narrating. |

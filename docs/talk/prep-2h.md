@@ -42,8 +42,10 @@ One paragraph you should be able to say out loud:
 Open the hero bug and work it **without** reading the script the first time. Get stuck; that's the point. Then do it again following the script.
 
 ```bash
-open "http://localhost:3100/apply/offer?bugs=singleton-split"
+open "http://localhost:3100/apply/offer?seed=ana&bugs=singleton-split"   # jumps straight to the symptom
 ```
+
+`?seed=` fills the application draft and `?bugs=` sets the flags; both strip themselves from the URL. The other stages are listed in [recording.md](recording.md).
 
 The four moves you must own:
 
@@ -88,13 +90,13 @@ Full run, out loud, standing, timer visible. Don't fix stumbles mid-run; note th
 Reset between runs:
 
 ```bash
-# fresh state, flags cleared
-open "http://localhost:3100/apply/start?bugs="
+# fresh state: flags cleared, draft emptied
+open "http://localhost:3100/apply/start?seed=&bugs="
 ```
 
 ## 1:40 – 1:55 · Record the backup and build three slides
 
-Record one clean run (QuickTime → New Screen Recording, or ⇧⌘5) and save it as `docs/talk/backup.mp4`. If the live demo dies, you narrate over the video and nobody notices.
+Record one clean run and save it as `docs/talk/backup.mp4`: step-by-step in [recording.md](recording.md). If the live demo dies, you narrate over the video and nobody notices.
 
 Three slides is all you need:
 1. **Title + the ticket** ("offer shown in dollars to a German customer, no errors").
@@ -109,7 +111,7 @@ pnpm smoke            # ✔ every bug: healthy when off, reproduces when on (~2 
 
 - [ ] Chrome **guest profile**, React DevTools installed, **no ad blocker** (the console noise is part of the story).
 - [ ] Zoom 150 %, DevTools docked to the bottom, DevTools font size bumped.
-- [ ] Walk the flow once as Ana so the draft exists, then open `/apply/offer?bugs=singleton-split`.
+- [ ] Open `/apply/offer?seed=ana&bugs=singleton-split` (no form-filling needed).
 - [ ] Editor on tab 2 with `git diff demo-start demo-fixed` ready.
 - [ ] `backup.mp4` open in a background window.
 - [ ] Phone timer at 10:00, Do Not Disturb on, notifications off.
