@@ -1,6 +1,8 @@
-# Speaker script: "The offer that forgot who you are" (8 min)
+# Speaker script: "The offer that forgot who you are" (10 min)
 
-One bug, done properly: **01 · singleton split** ([write-up](../bugs/01-singleton-split.md)).
+One bug done properly (**01 · singleton split**, ~6:30) plus a 90-second lightning bug
+(**05 · graph cycle**). Both run in the same `pnpm dev` profile, so nothing restarts on stage.
+Write-ups: [01](../bugs/01-singleton-split.md) · [05](../bugs/05-graph-cycle.md).
 Audience: senior engineers. The through-line is **shrink the blast radius → trust evidence over hunches → make silent failures loud.**
 
 ---
@@ -23,7 +25,7 @@ pnpm smoke                     # every bug: ✔ off healthy, ✔ on reproduces
 
 ---
 
-## 0:00 – 0:45 · The ticket
+## 0:00 – 0:40 · The ticket
 
 > "Friday, 4 pm. Compliance escalates a ticket: a German customer, Ana, got her loan offer **in dollars**. It says *'Hi, Guest'*. It's a regulated product: the offer has to be in the customer's currency. No errors in Sentry. Nothing in the logs."
 
@@ -31,7 +33,7 @@ pnpm smoke                     # every bug: ✔ off healthy, ✔ on reproduces
 
 > "Before I open anything, one question: *where* can this bug live?"
 
-## 0:45 – 1:40 · Shrink the blast radius
+## 0:40 – 1:30 · Shrink the blast radius
 
 **Show:** the step bar and footer (`graph loan@… · node offer`). Click back to **Income**: the hint says `30.000,00 €`.
 
@@ -39,7 +41,7 @@ pnpm smoke                     # every bug: ✔ off healthy, ✔ on reproduces
 
 Go forward to the offer again.
 
-## 1:40 – 2:30 · The console lies by omission
+## 1:30 – 2:15 · The console lies by omission
 
 **Open Console.** It's noisy: analytics, HelpChat deprecation warnings, a blocked pixel.
 
@@ -49,7 +51,7 @@ Type into the filter: `-acme-analytics -HelpChat -helpchat`.
 
 > "Empty. No error, no warning. Hold on to that: a correct-looking UI with wrong values and no error usually means something fell back to a **default**."
 
-## 2:30 – 4:00 · React DevTools: who gave you that value?
+## 2:15 – 3:45 · React DevTools: who gave you that value?
 
 **Components tab** → inspect the *"Hi, Guest"* text (select-element tool) → lands on `OfferNode`.
 
@@ -62,7 +64,7 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 
 > "…but there *is* a Provider, right above it, with the correct value. When a consumer reads the default with a Provider above it, there's only one explanation: **the consumer is subscribed to a different Context object.** Context identity is object identity. So: are there two copies of the context module?"
 
-## 4:00 – 5:30 · Prove it (three independent pieces of evidence)
+## 3:45 – 5:15 · Prove it (three independent pieces of evidence)
 
 1. **Sources → search all files** (⌥⌘F): `SduiContext.displayName`
    → two hits in **two bundles**: the host's shared chunk and `__federation_expose_OfferNode.js` from the offers origin.
@@ -79,7 +81,7 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 
 > "Three tools, one story. Now, and only now, do we open the code."
 
-## 5:30 – 6:50 · Root cause and fix
+## 5:15 – 6:30 · Root cause and fix
 
 **Editor:** `apps/offers/next.config.js`: `shared` doesn't list `@acme/sdui-context`. There's a comment about PR #412, which moved offers to the new package and updated the import but not the federation config.
 
@@ -93,13 +95,30 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 
 > "The config line is the fix. The loud warnings are the part that stops this from coming back."
 
-## 6:50 – 8:00 · Takeaways
+## 6:30 – 8:00 · Lightning bug: the tab that freezes at exactly 30,000
+
+> "Same app, 90 seconds, different tool. Support says the app freezes for *some* applicants. QA can't reproduce it."
+
+1. **Ctrl+Shift+B** → tick `graph-cycle` → the page reloads. Go to **Income** (`/apply/income`).
+2. **Open DevTools first** (this is the whole trick), then type `30000` and click **Check eligibility**. The tab is frozen: the spinner never comes, the console is dead.
+3. Sources → **Pause** (F8). The call stack stops in `resolveNext` → `pickEdge`, inside `while (edge)`.
+4. Hover `target.id` in the loop (or add a logpoint): it alternates `eligibility → affordability → eligibility`.
+5. Network → the graph payload: `eligibility` leaves on `totalIncome > 30000`, `affordability` comes back on `>= 30000`. At exactly the threshold, neither lets go.
+
+> "Two teams, two decision nodes, one boundary they disagreed about. Server-driven UI means the server can ship you a cycle, so the client resolver now carries a visited-set and throws instead of hanging. And notice: a frozen tab isn't a dead end. Open DevTools **before** you reproduce, then Pause, and the stack tells you where you are."
+
+## 8:00 – 9:20 · Takeaways
 
 1. **Shrink the blast radius first.** Which deployable, which boundary? In microfrontends that question is half the investigation.
 2. **Silence is a signal.** Wrong data with no error means a default or a fallback is involved. Defaults that "render fine" hide wiring bugs, so make contracts fail loudly (`strictVersion`, provider guards).
 3. **Ask the tools who produced the value.** React DevTools for *which* value a hook got, the MF share scope for *which* copy exists, and Network for *what* was actually shipped.
 
-> "The repo has nine more bugs like this: hydration, stale remote entries, minified prod crashes, races, leaks. Each has a write-up and a fix branch. Link on the slide."
+> "The repo has eight more like these: hydration, stale remote entries, minified prod crashes, races, leaks. Each one has a write-up and a fix branch. Link on the slide."
+
+## 9:20 – 10:00 · Buffer
+
+Over-running is normal. Cuts, in this order: the third piece of evidence (console `__FEDERATION__`),
+then the lightning bug, then the fix diff (just say what the line is).
 
 ---
 
@@ -110,5 +129,6 @@ Walk **up** the tree: `SduiProvider` → `SduiContext.Provider` with `de-DE`, `E
 | Offer stuck on the grey skeleton | Browser tab not focused/visible (React defers work in hidden tabs); click into the page. Else reload. |
 | Offer shows € (bug not active) | `Ctrl+Shift+B` → tick `singleton-split`. |
 | `:3112` not running | `pnpm --filter @acme/offers dev:buggy` |
+| Frozen tab won't unfreeze after the lightning bug | Close the tab, open a fresh one on `http://localhost:3100/apply/start?bugs=` (clears every flag). |
 | Bug on/off behaves wrong after a `git checkout` | A remote kept its old `next.config.js`. Stop and rerun `pnpm dev` (the remotes run good+buggy under `concurrently -k`, so restart both). |
 | Anything else | Switch to the backup video at the matching timestamp; keep narrating. |
